@@ -9,7 +9,7 @@ import java.io.IOException;
 
 import javax.swing.table.DefaultTableModel;
 
-public class Interfaz extends javax.swing.JFrame {
+public final class Interfaz extends javax.swing.JFrame {
 
     private final String ruta = System.getProperties().getProperty("user.dir");
     private  static final String NOMEPASTA_ONDEESTAO_OS_ARQUIVOS = "C:\\lerr_txt\\";/// troca só aqui não precissa fazer mais nada.
@@ -58,6 +58,7 @@ public class Interfaz extends javax.swing.JFrame {
             String col2="";
             String col3="";
             String col4="";
+            String col5="";//nova linha
             String exercicio[] = new String[200];
             int indice  = 0;
             int nrErros = 0;
@@ -72,12 +73,14 @@ public class Interfaz extends javax.swing.JFrame {
                 }else if (indice == 3){
      	            col4 = linha.split("\\:")[1];
                 }else{
-                    System.out.println(linha);
+                    System.out.println(linha); 
+                    col5 = pegarUltimaLinha(linha);//função que pega a ultima linha.
+                    System.out.println(col5); 
                 }
                 indice++;
 	    }
             
-            linha = col1 + ":" + col2 +":" + col3 + ":" + col4;
+            linha = col1 + ":" + col2 +":" + col3 + ":" + col4 + ":"+col5;//add coluna 5
             modelo.addRow(linha.split(":"));
             
         }
@@ -85,6 +88,12 @@ public class Interfaz extends javax.swing.JFrame {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+    }
+
+    protected String pegarUltimaLinha(String linha) {
+        String[] split = linha.split("-");
+        String[] split1 = split[0].split("Exercicio");
+        return split1[1];
     }
     
     @SuppressWarnings("unchecked")
