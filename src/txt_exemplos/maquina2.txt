@@ -1,0 +1,9 @@
+Aluno       : 122340032
+Compilacoes : 2
+Qt. Acertos : 0.0
+Qt. Erros   : 10.0
+ > Erro : Exercicio 2 -  esperado identificador de tipo : 2 ocorrencias.
+ > Erro : Exercicio 2 -  esperado parenteses : 2 ocorrencias.
+ > Erro : Exercicio 2 -  chaves desbalanceadas : 2 ocorrencias.
+ > Erro : Exercicio 2 -  erro de sintaxe : 2 ocorrencias.
+ > Erro : Exercicio 2 -  esperado ponto-e-virgula : 2 ocorrencias.

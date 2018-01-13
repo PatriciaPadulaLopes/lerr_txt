@@ -1,0 +1,10 @@
+Aluno       : 12311315
+Compilacoes : 6
+Qt. Acertos : 0.0
+Qt. Erros   : 24.0
+ > Erro : Exercicio 1 -  biblioteca <string.h> nao declarada : 10 ocorrencias.
+ > Erro : Exercicio 1 -  variavel nao declarada : 5 ocorrencias.
+ > Erro : Exercicio 1 -  esperado ponto-e-virgula : 5 ocorrencias.
+ > Erro : Exercicio 2 -  biblioteca <string.h> nao declarada : 2 ocorrencias.
+ > Erro : Exercicio 2 -  variavel nao declarada : 1 ocorrencias.
+ > Erro : Exercicio 25 -  esperado ponto-e-virgula : 1 ocorrencias.

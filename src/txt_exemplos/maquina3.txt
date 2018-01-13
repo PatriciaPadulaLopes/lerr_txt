@@ -1,0 +1,9 @@
+Aluno       : 122556023
+Compilacoes : 2
+Qt. Acertos : 0.0
+Qt. Erros   : 24.0
+ > Erro : Exercicio 3 -  numero invalido : 8 ocorrencias.
+ > Erro : Exercicio 3 -  erro de sintaxe : 2 ocorrencias.
+ > Erro : Exercicio 3 -  variavel nao declarada : 2 ocorrencias.
+ > Erro : Exercicio 3 -  esperado parenteses : 6 ocorrencias.
+ > Erro : Exercicio 15 -  esperado ponto-e-virgula : 6 ocorrencias.
