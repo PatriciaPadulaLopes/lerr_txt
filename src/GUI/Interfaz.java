@@ -59,6 +59,7 @@ public final class Interfaz extends javax.swing.JFrame {
             String col3="";
             String col4="";
             String col5="";//nova linha
+            String col6="";
             String exercicio[] = new String[200];
             int indice  = 0;
             int nrErros = 0;
@@ -72,6 +73,7 @@ public final class Interfaz extends javax.swing.JFrame {
      	            col3 = linha.split("\\:")[1];
                 }else if (indice == 3){
      	            col4 = linha.split("\\:")[1];
+                    col6 = status( col4 );
                 }else{
                     System.out.println(linha); 
                     col5 = pegarUltimaLinha(linha);//função que pega a ultima linha.
@@ -80,7 +82,7 @@ public final class Interfaz extends javax.swing.JFrame {
                 indice++;
 	    }
             
-            linha = col1 + ":" + col2 +":" + col3 + ":" + col4 + ":"+col5;//add coluna 5
+            linha = col1 + ":" + col2 +":" + col3 + ":" + col4 + ":"+col5 + ":"+col6;//add coluna 5 e 6
             modelo.addRow(linha.split(":"));
             
         }
@@ -90,12 +92,28 @@ public final class Interfaz extends javax.swing.JFrame {
 		}
     }
 
-    protected String pegarUltimaLinha(String linha) {
+    private String pegarUltimaLinha(String linha) {
         String[] split = linha.split("-");
         String[] split1 = split[0].split("Exercicio");
         return split1[1];
     }
-    
+    private String status(String qtd) {
+        if(qtd == null || qtd.equals("")) return "";
+        String atatus = null;
+        double qtdErros = Double.parseDouble(qtd);
+        
+         if( qtdErros >= 2 ){
+            return "Ótimo";
+         }else if ( qtdErros >= 2 && qtdErros <= 5){
+               atatus = "Regular";
+         }else if( qtdErros >= 5 && qtdErros <= 8 ){
+               atatus = "Ruim";
+         }else if( qtdErros <= 8 ){
+               atatus = "Péssimo";
+         }
+        return atatus;
+          
+    }  
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -182,4 +200,6 @@ public final class Interfaz extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
+
+  
 }
