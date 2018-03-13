@@ -1,13 +1,24 @@
 package GUI;
 
 
+import static com.sun.xml.internal.fastinfoset.alphabet.BuiltInRestrictedAlphabets.table;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Vector;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
 
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 public final class Interfaz extends javax.swing.JFrame {
 
@@ -23,12 +34,7 @@ public final class Interfaz extends javax.swing.JFrame {
  
      try {
          
-         
-         
-         
-         
-         
-         
+        
     
         File diretorio = new File(NOMEPASTA_ONDEESTAO_OS_ARQUIVOS);
         File arquivos[];
@@ -53,6 +59,7 @@ public final class Interfaz extends javax.swing.JFrame {
 	    modelo.setNumRows(i);//Numero de linha tem que ser a mesma quantidade de arquivos;
 	    jTable1.setModel(modelo);//mudei aqui. model ficou global e não local.
 	    
+            
             String linha = "";
             String col1="";
             String col2="";
@@ -83,13 +90,25 @@ public final class Interfaz extends javax.swing.JFrame {
 	    }
             
             linha = col1 + ":" + col2 +":" + col3 + ":" + col4 + ":"+col5 + ":"+col6;//add coluna 5 e 6
+            
             modelo.addRow(linha.split(":"));
             
+            
         }
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+        
+        TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(modelo);
+        jTable1.setRowSorter(sorter);  
+        List<RowSorter.SortKey> sortKeys = new ArrayList<>();
+        sortKeys.add(new RowSorter.SortKey(4/** Coluna*/, SortOrder.DESCENDING));
+        sorter.setSortKeys(sortKeys);
+          
+        
+        
+        
+            
+      } catch (IOException e) {
+	 e.printStackTrace();
+      }
     }
 
     private String pegarUltimaLinha(String linha) {
