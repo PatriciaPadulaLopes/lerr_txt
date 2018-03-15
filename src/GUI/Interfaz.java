@@ -7,14 +7,25 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileReader;
 import java.io.IOException;
+import static java.lang.Thread.sleep;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JTable;
 
 import javax.swing.RowSorter;
 import javax.swing.SortOrder;
+import javax.swing.Timer;
+import javax.swing.plaf.IconUIResource;
 
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -23,7 +34,12 @@ public final class Interfaz extends javax.swing.JFrame {
     private final String ruta = System.getProperties().getProperty("user.dir");
     private  static final String NOMEPASTA_ONDEESTAO_OS_ARQUIVOS = "C:\\lerr_txt\\";/// troca só aqui não precissa fazer mais nada.
     private DefaultTableModel modelo;
+    
     public Interfaz() {
+     init();
+    }
+    
+    public void init() {
         initComponents();
         
       File archivo = null;
@@ -64,7 +80,7 @@ public final class Interfaz extends javax.swing.JFrame {
             String col3="";
             String col4="";
             String col5="";//nova linha
-            String col6="";
+            JTableRender col6 = null;
             String exercicio[] = new String[200];
             int indice  = 0;
             int nrErros = 0;
@@ -78,7 +94,7 @@ public final class Interfaz extends javax.swing.JFrame {
      	            col3 = linha.split("\\:")[1];
                 }else if (indice == 3){
      	            col4 = linha.split("\\:")[1];
-                    col6 = status( col4 );
+                    col6 = getImagem( col4 );
                 }else{
                     System.out.println(linha); 
                     col5 = pegarUltimaLinha(linha);//função que pega a ultima linha.
@@ -87,10 +103,11 @@ public final class Interfaz extends javax.swing.JFrame {
                 indice++;
 	    }
             
-            linha = col1 + ":" + col2 +":" + col3 + ":" + col4 + ":"+col5 + ":"+col6;//add coluna 5 e 6
+            linha = col1 + ":" + col2 +":" + col3 + ":" + col4 + ":"+col5 ;//add coluna 5 e 6
             
             modelo.addRow(linha.split(":"));
-            
+            TableColumnModel columnModel = jTable1.getColumnModel();
+            columnModel.getColumn(5).setCellRenderer(col6);
             
         }
         
@@ -99,38 +116,76 @@ public final class Interfaz extends javax.swing.JFrame {
         List<RowSorter.SortKey> sortKeys = new ArrayList<>();
         sortKeys.add(new RowSorter.SortKey(4/** Coluna*/, SortOrder.DESCENDING));
         sorter.setSortKeys(sortKeys);
-          
+ 
+        atualizarTabela(3000);
+       
         
-        
-        
-            
       } catch (IOException e) {
 	 e.printStackTrace();
       }
     }
 
+    
+    private void atualizarTabela( final long tempo){
+       
+   new Thread( new Runnable() {
+          @Override
+          public void run() {
+               System.out.println(" Atualizando tabelas :" + new  SimpleDateFormat(" hh:mm:ss ").format(new Date()));
+                init();
+                
+              try {
+                  sleep(tempo);
+                  run();
+              } catch (InterruptedException ex) {
+                  Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+              }
+          }
+      }).start();
+    }
     private String pegarUltimaLinha(String linha) {
         String[] split = linha.split("-");
         String[] split1 = split[0].split("Exercicio");
         return split1[1];
     }
-    private String status(String qtd) {
-        if(qtd == null || qtd.equals("")) return "";
+    private  JTableRender getImagem(String qtd) {
+        if(qtd == null || qtd.equals("")) new JTableRender();
         String atatus = null;
         double qtdErros = Double.parseDouble(qtd);
         
-         if( qtdErros >= 2 ){
-            return "Ótimo";
-         }else if ( qtdErros >= 2 && qtdErros <= 5){
-               atatus = "Regular";
-         }else if( qtdErros >= 5 && qtdErros <= 8 ){
-               atatus = "Ruim";
-         }else if( qtdErros <= 8 ){
-               atatus = "Péssimo";
-         }
-        return atatus;
-          
+        JTableRender img = new JTableRender();
+         
+        ImageIcon imagem = null;
+        
+        if( qtdErros <= 2){
+             imagem = criarImagem(Imagen.OTIMO.getNome(), "Status òtimo");
+        }else if(qtdErros >= 2 && qtdErros <= 5){
+             imagem = criarImagem( Imagen.REGULAR.getNome(), "Teste 1");
+        }else if(qtdErros <= 5 && qtdErros <= 8){
+             imagem = criarImagem(Imagen.RUIM.getNome(), "Teste 1");
+        }else if(qtdErros >= 8){
+            imagem = criarImagem(Imagen.PESSIMO.getNome(), "Teste 1");
+        }
+        //add imagem
+        img.setValue(  imagem );
+        
+        return img;
     }  
+    
+    protected ImageIcon criarImagem(String path,String description) {
+    java.net.URL imgURL = Interfaz.class.getClass().getResource("/GUI/"+"pessimo.png");
+        System.out.println("URI " + imgURL);
+    if (imgURL != null) {
+        return new ImageIcon(imgURL, description);
+    } else {
+        System.err.println(" o arquivo: " + path);
+        return null;
+    }
+}
+    
+
+    
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -218,5 +273,10 @@ public final class Interfaz extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 
+    public JTable getjTable1() {
+        return jTable1;
+    }
+
+    
   
 }
